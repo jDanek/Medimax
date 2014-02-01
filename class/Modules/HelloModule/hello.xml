@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<medimax-module type="module" requireVersion="2.0.0">
+    
+    <name>Hello Module</name>
+    <description>Module description</description>
+    <version>1.0</version>
+    
+    <author>
+        <name>jDanek</name>
+        <email>jirka.danek@jdanek.eu</email>
+        <url>jdanek.eu</url>
+    </author>
+    
+    <config>
+        <accessLevel>600</accessLevel>
+        <priority>1</priority>
+    </config>
+    
+    <files>
+        <runable>scripts/script.php</runable>
+        <sidebar>resources/sidebar.php</sidebar>
+    </files>
+    
+</medimax-module>
