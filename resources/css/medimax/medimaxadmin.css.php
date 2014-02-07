@@ -222,6 +222,7 @@ div.CodeMirror span.cm-hcm {color: <?php echo $dark ? '#ff0' : '#f60' ?>;}
 /*//////////////////////////////////////////////////////////////////////////
 MEDIMAX DYNAMIC 
 ////////////////////////////////////////////////////////////////////////*/
+.cleaner {clear: both;}
 
 /* ZALOZKA */
 .medimax-tabicon {height: 14px; margin-right: 3px; margin-bottom: -2px; width: 14px;}
