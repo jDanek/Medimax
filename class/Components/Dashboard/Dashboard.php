@@ -83,6 +83,9 @@ class Dashboard
      */
     public function moduleList()
     {
+        /** @var string */
+        static $modId, $modIcon, $modTitle, $modDescription;
+
         $return = "<div id='dashboard' class='dashboard'>";
 
         foreach ($this->modules as $mod)
@@ -90,24 +93,27 @@ class Dashboard
             /** @var bool */
             $isCorrectVersion = $this->compareVersion($mod['requireVersion'], Medimax::VERSION, '<=');
 
-            // nacteni ikony, nebo default
+            // priprava informaci modulu
             $icon_src = $mod->path . DIRECTORY_SEPARATOR . 'resources/icon.png';
-            $mod_icon = (file_exists($icon_src) ? $icon_src : MedimaxConfig::getDirectory('icons') . "modicon_red.png");
-            $mod_title = "<a href='" . MedimaxConfig::moduleUrl($mod->id, true) . "'>{$mod->name}</a>";
+
+            $modId = $mod->id;
+            $modIcon = (file_exists($icon_src) ? $icon_src : MedimaxConfig::getDirectory('icons') . "modicon_red.png");
+            $modTitle = "<a href='" . MedimaxConfig::moduleUrl($mod->id, true) . "'>{$mod->name}</a>";
+            $modDescription = $mod->description;
 
             // zmenit ikonu pokud neni modul pouzitelny v aktualni verzi prostredi
             if (false === $isCorrectVersion)
             {
-                $mod_icon = MedimaxConfig::getDirectory('icons') . "modicon_red.png";
-                $mod_title = "<span class='a-disabled' title='" . Medimax::lang('module', 'requireVersion') . Medimax::NAME . " {$mod['requireVersion']}'>{$mod->name}</span>";
+                $modIcon = MedimaxConfig::getDirectory('icons') . "modicon_red.png";
+                $modTitle = "<span class='a-disabled' title='" . Medimax::lang('module', 'requireVersion') . Medimax::NAME . " {$mod['requireVersion']}'>{$mod->name}</span>";
             }
 
             // vypis modulu
-            $return.="<div class='mod-container mod-{$mod->id}'>
-                          <img class='mod-icon' alt='module-icon' src='{$mod_icon}' />
+            $return.="<div class='mod-container mod-{$modId}'>
+                          <img class='mod-icon' alt='module-icon' src='{$modIcon}' />
                           <div class='mod-data'>
-                              <span class='mod-anchor mod-title'>{$mod_title}</span>
-                              <span class='mod-description'>{$mod->description}</span>
+                              <span class='mod-anchor mod-title'>{$modTitle}</span>
+                              <span class='mod-description'>{$modDescription}</span>
                           </div>
                        </div>";
         }

@@ -17,12 +17,12 @@ $sidebar_content = $dashboard->sidebar((!isset($qs->m) ? : $qs->m));
 static $descAfter, $sTitleBefore, $sTitleAfter, $sContBefore, $sContAfter, $contentBefore, $contentAfter, $footerLinks;
 
 /* --- rozsireni dashboard --- */
-_extend('call', 'medimax.dashboard', _extendArgs($output, array(
+_extend('call', 'medimax.dashboard', array(
     'header-after' => &$descAfter,
     'sidebar'      => array('title' => array('before' => &$sTitleBefore, 'after' => &$sTitleAfter), 'content' => array('before' => &$sContBefore, 'after' => &$sContAfter)),
     'content'      => array('before' => &$contentBefore, 'after' => &$contentAfter),
     'footer-links' => &$footerLinks,
-)));
+));
 
 /* --- header --- */
 $output.="<p class='bborder'>" . Medimax::lang('description') . "</p>{$descAfter}";
