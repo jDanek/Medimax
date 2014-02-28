@@ -49,7 +49,7 @@ $output.="<div class='cleaner'></div>
 /* --- footer --- */
 $salogo = "http://www.studioart.cz/pictures/pr/cms/medimax.png";
 $header_response = @get_headers($salogo, 1);
-$studioart = (strpos($header_response[0], "200") ? "<img src='http://www.studioart.cz/pictures/pr/cms/medimax.png' alt='StudioArt.cz' />" : "StudioArt.cz");
+$studioart = (strpos($header_response[0], "200") ? "<img src='{$salogo}' alt='StudioArt.cz' />" : "StudioArt.cz");
 
 $output.="<div class='medimax-dashboard-footer'>
               <div class='links'>{$footerLinks}</div>
