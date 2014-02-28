@@ -176,7 +176,7 @@ class Dashboard
             $selectedModule = $this->modules[$module];
             $sidebarScript = $selectedModule->path . DIRECTORY_SEPARATOR . $selectedModule->files->sidebar;
 
-            if (null !== $selectedModule->files->sidebar && file_exists($sidebarScript))
+            if (isset($selectedModule->files->sidebar) && file_exists($sidebarScript))
             {
                 return require $sidebarScript;
             }
