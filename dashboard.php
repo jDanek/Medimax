@@ -53,6 +53,6 @@ $studioart = (strpos($header_response[0], "200") ? "<img src='http://www.studioa
 
 $output.="<div class='medimax-dashboard-footer'>
               <div class='links'>{$footerLinks}</div>
-              <div class='informations'><a href='http://www.studioart.cz' target='_blank'>{$studioart}</a><br />" . Medimax::NAME . " " . Medimax::VERSION . " " . strtoupper(Medimax::STATE) . "</div>
+              <div class='informations'><a href='http://www.studioart.cz' target='_blank' style='display:block;'>{$studioart}</a>" . Medimax::NAME . " " . Medimax::VERSION . " " . strtoupper(Medimax::STATE) . "</div>
               <div class='cleaner'></div>
           </div>";
