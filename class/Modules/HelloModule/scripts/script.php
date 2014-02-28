@@ -63,12 +63,13 @@ class MedimaxModuleClass extends AdminBread
 
             // validovat odesilana data metodou
             $validateResult = $that->validate($_POST, true);
-
+			$errors = array();
             do
             {
                 // pokud jsou ve zpracovani chyby ... zastavit zpracovani
                 if (sizeof($validateResult[0]) > 0)
                 {
+                    $errors[] = array(2, _eventList($validateResult[0],'errors'), null, true);
                     break;
                 }
 
@@ -76,7 +77,7 @@ class MedimaxModuleClass extends AdminBread
                 $args['success'] = true;
                 return $validateResult[1];
             } while (false);
-            return $validateResult[0];
+            return $errors;
         };
 
         /* mazaní */
@@ -89,12 +90,13 @@ class MedimaxModuleClass extends AdminBread
 
             // validovat odesilana data metodou
             $validateResult = $that->validate($_POST, false);
-
+			$errors = array();
             do
             {
                 // pokud jsou ve zpracovani chyby ... zastavit zpracovani
                 if (sizeof($validateResult[0]) > 0)
                 {
+                    $errors[] = array(2, _eventList($validateResult[0],'errors'), null, true);
                     break;
                 }
 
@@ -102,7 +104,7 @@ class MedimaxModuleClass extends AdminBread
                 $args['success'] = true;
                 return $validateResult[1];
             } while (false);
-            return $validateResult[0];
+            return $errors;
         };
     }
 
