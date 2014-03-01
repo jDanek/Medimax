@@ -266,7 +266,7 @@ MEDIMAX DYNAMIC
 
 /* PATKA */
 .medimax-dashboard-footer{margin-top: 15px;}
-.medimax-dashboard-footer .informations{font-size: smaller;text-align: right;color: <?php echo $scheme_text; ?>;}
+.medimax-dashboard-footer .informations{padding-top: 15px; font-size: smaller;text-align: right;color: <?php echo $scheme_text; ?>;}
 
 /* OSTATNI */
 .disabled-action {color: <?php echo $scheme_smoke_text; ?>;}
