@@ -11,8 +11,8 @@ abstract class Medimax
 {
 
     const NAME = "Medimax";
-    const VERSION = "2.0.0";
-    const STATE = "DEV";
+    const VERSION = "2.0.1";
+    const STATE = "";
 
     /** @var array  */
     private static $subModules = array(
