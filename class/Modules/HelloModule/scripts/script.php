@@ -4,6 +4,9 @@
 if (!defined('_core'))
     die;
 
+use Medimax\Components\Module\ModLoader;
+use Medimax\Components\Filter\ContentFilter;
+
 /**
  * Ukazkovy zakladni MEDIMAX 2.x Modul
  */
@@ -17,7 +20,7 @@ class MedimaxModuleClass extends AdminBread
          * Predani informaci o modulu z nacteneho XML souboru
          * ===================================================
          */
-        $modLoader = new Medimax\Components\Module\ModLoader(MedimaxConfig::getDirectory('modules'));
+        $modLoader = new ModLoader(MedimaxConfig::getDirectory('modules'));
         $activeModule = $modLoader->getModule(_get('m'));
         $module_title = (string) $activeModule->name;
 
@@ -37,6 +40,21 @@ class MedimaxModuleClass extends AdminBread
         _registerLangPack('mmm.' . $activeModule->id, $activeModule->path . DIRECTORY_SEPARATOR . 'languages/');
 
         /**
+         * ================================
+         *         FILTROVANI
+         * ================================
+         */
+        $this->filter = new ContentFilter((string)$activeModule->id);
+        $this->filter->config['select.option.default'] = 'Filtrování položek';
+        $filter_rules = __DIR__ . '/modulefilter.php';
+        if(file_exists($filter_rules)){
+            $this->filter->addItemsFromFile(require $filter_rules);
+        }
+
+        // ovlivneni dotazu filtrem
+        $this->actions['list']['query_cond'] = $this->filter->composeCondFromFilters();
+
+        /**
          * ==========================
          * Nastaveni instance modulu
          * ==========================
@@ -47,7 +65,7 @@ class MedimaxModuleClass extends AdminBread
 
         /* výpis */
         $this->actions['list']['title'] = '%s - ' . Medimax::lang('module', 'active.list');
-        $this->actions['list']['columns'][] = 't.id, t.username, t.email';
+        $this->actions['list']['columns'][] = 't.id, t.username, t.email, t.group';
         $this->actions['list']['paginator_size'] = 15;
         $this->actions['list']['query_orderby'] = 't.id DESC';
 

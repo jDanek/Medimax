@@ -282,12 +282,14 @@ BREAD SABLONY
 
 .minimal-width{width:1%; white-space:nowrap;}
 
-.bread-list-before {margin: 10px 0 20px 0; padding: 5px 0; border-top: 1px solid <?php echo $scheme_smoke_gray; ?>; border-bottom: 1px solid <?php echo $scheme_smoke_gray; ?>;}
-.bread-list-before .new-item {float:left; margin-top: 5px; width: 29%;}
+.bread-list-before {/*margin: 10px 0 20px 0;*/ padding: 5px 0; /*border-top: 1px solid <?php echo $scheme_smoke_gray; ?>;*/ border-bottom: 1px solid <?php echo $scheme_smoke_gray; ?>;}
+.bread-list-before .new-item, .new-item {float:left; margin-top: 10px; margin-bottom: 10px; width: 29%;}
 .bread-list-before .paging {float: left; width: 40%;}
-.bread-list-before .paging a {background-color: <?php echo $scheme_white; ?>; padding: 2px 2px; margin: 0 !important; border: 1px solid <?php echo $scheme_smoke_gray_dark; ?>;}
+.bread-list-before .paging a {background-color: <?php echo $scheme_white; ?>; padding: 2px 2px; margin: 0 !important;}
 .bread-list-before .paging a.act, .bread-list-before .paging a:hover {padding: 4px 2px; color: <?php echo $scheme_text; ?>;}
-.bread-list-before .filter {float:right; text-align: right; width: 29%;}
+.bread-list-before .filter {float:right; text-align: right;}
+
+.medimax-dashboard-wrapper .list td {padding: 5px 10px 5px 5px;}
 
 .bread-actions {width:1%; white-space:nowrap; padding: 5px 10px !important;}
 .bread-actions span{display:none;}
@@ -296,3 +298,6 @@ BREAD SABLONY
 <?php if ($dark) { ?>
 .list-action-btn .icon {background-color: <?php echo $scheme_white; ?>; padding: 2px 5px; margin: -1px 2px 0 0 !important; border: 1px solid <?php echo $scheme_smoke_gray_dark; ?>;}
 <?php } ?>
+
+/* FILTROVANI */
+option.item-selected {color: blue;}
