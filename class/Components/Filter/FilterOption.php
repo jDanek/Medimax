@@ -39,6 +39,24 @@ class FilterOption
     /**
      * @return string
      */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @param string $group
+     * @return $this
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
@@ -58,9 +76,9 @@ class FilterOption
      * @param $key
      * @return $this
      */
-    public function generateId($key)
+    public function generateId($key, $group)
     {
-        $this->id = substr(md5($key), 0, 8);
+        $this->id = substr(md5($group), 0, 5) . ':' . substr(md5($key), 0, 8);
         return $this;
     }
 
@@ -102,32 +120,6 @@ class FilterOption
     }
 
     /**
-     * @return string
-     */
-    public function getGroup()
-    {
-        return $this->group;
-    }
-
-    /**
-     * @param string $group
-     * @return $this
-     */
-    public function setGroup($group)
-    {
-        $this->group = $group;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isActive()
-    {
-        return $this->is_active;
-    }
-
-    /**
      * @param bool $is_active
      * @return $this
      */
@@ -145,4 +137,11 @@ class FilterOption
         return "<option value='" . $this->id . "'" . ($this->isActive() ? "class='item-selected' selected" : "") . ">" . ($this->isActive() ? "&#10004; " : "") . $this->name . "</option>\n";
     }
 
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->is_active;
+    }
 }

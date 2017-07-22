@@ -8,17 +8,15 @@ namespace Medimax\Components\Filter;
  */
 class ContentFilter
 {
-    /** @var string */
-    private $identifier;
-
-    /** @var array */
-    private $items = array();
-
     /** @var array */
     public $config = array(
         'select.name'           => 'filter-select',
         'select.option.default' => '--- Select ---',
     );
+    /** @var string */
+    private $identifier;
+    /** @var array */
+    private $items = array();
 
     /**
      * ContentFilter
@@ -43,21 +41,6 @@ class ContentFilter
     }
 
     /**
-     * @param $name
-     * @param $cond
-     * @param string $group
-     */
-    public function addItem($name, $cond, $group = FilterOption::BASEGROUP)
-    {
-        $option = new FilterOption();
-        $option->generateId($group . $name)
-            ->setName($name)
-            ->setCond($cond)
-            ->setGroup($group);
-        $this->items[$group][$option->getId()] = $option;
-    }
-
-    /**
      * @param array $items [['name'=>'Title 1', 'cond'=>'column=1'], ...]
      * @param string $group
      */
@@ -70,13 +53,28 @@ class ContentFilter
     }
 
     /**
+     * @param $name
+     * @param $cond
+     * @param string $group
+     */
+    public function addItem($name, $cond, $group = FilterOption::BASEGROUP)
+    {
+        $option = new FilterOption();
+        $option->generateId($name, $group)
+            ->setName($name)
+            ->setCond($cond)
+            ->setGroup($group);
+        $this->items[$group][$option->getId()] = $option;
+    }
+
+    /**
      * @param $filter_map (require file return ['Group'=>[['name'=>'Title 1', 'cond'=>'column=1']...],...])
      */
     public function addItemsFromFile($filter_map)
     {
         foreach ($filter_map as $group => $items)
         {
-            foreach ($items as $x=>$item)
+            foreach ($items as $x => $item)
             {
                 $this->addItem($item['name'], $item['cond'], $group);
             }
@@ -92,6 +90,46 @@ class ContentFilter
     }
 
     /**
+     * @return string
+     */
+    public function composeCondFromFilters()
+    {
+        $filters = array();
+        /*if ($this->getActiveFromSession() !== null)
+        {
+            $filters = array_keys($this->getActiveFromSession());
+        }*/
+
+        if ($this->getActiveFromSession() !== null)
+        {
+            $filters = $this->getActiveFromSession();
+        }
+
+        $act = array();
+        $items = $this->getOnlyItems();
+        foreach ($filters as $g => $f)
+        {
+            if (isset($items[$f]))
+            {
+                $act[] = $items[$f]->getCond();
+            }
+        }
+        return count($act) > 0 ? implode(' AND ', $act) : "1";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActiveFromSession()
+    {
+        if (isset($_SESSION['medimax']['filters'][$this->identifier]) && count($_SESSION['medimax']['filters'][$this->identifier]) > 0)
+        {
+            return $_SESSION['medimax']['filters'][$this->identifier];
+        }
+        return null;
+    }
+
+    /**
      * @return array
      */
     public function getOnlyItems()
@@ -102,29 +140,6 @@ class ContentFilter
             $items = array_merge($items, $i);
         }
         return $items;
-    }
-
-    /**
-     * @return string
-     */
-    public function composeCondFromFilters()
-    {
-        $filters = array();
-        if ($this->getActiveFromSession() !== null)
-        {
-            $filters = array_keys($this->getActiveFromSession());
-        }
-
-        $act = array();
-        $items = $this->getOnlyItems();
-        foreach ($filters as $f)
-        {
-            if (isset($items[$f]))
-            {
-                $act[] = $items[$f]->getCond();
-            }
-        }
-        return count($act) > 0 ? implode(' AND ', $act) : "1";
     }
 
     /**
@@ -170,6 +185,17 @@ class ContentFilter
             case 'clear':
                 $this->clearActiveInSession();
                 break;
+            case 'search':
+                if ($key != null)
+                {
+                    $_SESSION['medimax']['search'][$this->identifier] = $key;
+                }
+                else
+                {
+                    unset($_SESSION['medimax']['search'][$this->identifier]);
+                }
+
+                break;
         }
         header("Refresh:0");
     }
@@ -180,7 +206,8 @@ class ContentFilter
      */
     public function saveActiveToSession($active)
     {
-        $_SESSION['medimax-filters'][$this->identifier][$active] = 1;
+        $value = explode(':', $active);
+        $_SESSION['medimax']['filters'][$this->identifier][$value[0]] = $active;
     }
 
     /**
@@ -188,29 +215,19 @@ class ContentFilter
      */
     public function removeActiveFromSession($active)
     {
-        if (isset($_SESSION['medimax-filters'][$this->identifier][$active]))
+        $value = explode(':', $active);
+        if (isset($_SESSION['medimax']['filters'][$this->identifier][$value[0]]))
         {
-            unset($_SESSION['medimax-filters'][$this->identifier][$active]);
+            unset($_SESSION['medimax']['filters'][$this->identifier][$value[0]]);
         }
     }
 
     /**
-     * @return mixed
+     * Unset module filters
      */
-    public function getActiveFromSession()
-    {
-        if (isset($_SESSION['medimax-filters'][$this->identifier]) && count($_SESSION['medimax-filters'][$this->identifier]) > 0)
-        {
-            return $_SESSION['medimax-filters'][$this->identifier];
-        }
-        return null;
-    }
-
-
     public function clearActiveInSession()
     {
-        unset($_SESSION['medimax-filters'][$this->identifier]);
+        unset($_SESSION['medimax']['filters'][$this->identifier]);
     }
-
 
 }

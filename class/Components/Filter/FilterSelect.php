@@ -30,14 +30,6 @@ class FilterSelect
     }
 
     /**
-     * @param FilterOption $option
-     */
-    public function setOption(FilterOption $option)
-    {
-        $this->options_map[$option->getGroup()][$option->getId()] = $option;
-    }
-
-    /**
      * @param FilterOption[] $options
      */
     public function setOptions(array $options)
@@ -49,13 +41,11 @@ class FilterSelect
     }
 
     /**
-     * @param $id
-     * @return bool
+     * @param FilterOption $option
      */
-    public function isActive($id)
+    public function setOption(FilterOption $option)
     {
-        $map = $this->getActiveOptions();
-        return isset($map[$id]);
+        $this->options_map[$option->getGroup()][$option->getId()] = $option;
     }
 
     /**
@@ -64,15 +54,6 @@ class FilterSelect
     public function setActiveOption($id)
     {
         $this->active_options += (array)$id;
-    }
-
-    /**
-     * @param bool $flipped
-     * @return array|bool
-     */
-    public function getActiveOptions($flipped = false)
-    {
-        return ($flipped ? array_flip($this->active_options) : $this->active_options);
     }
 
     /**
@@ -85,6 +66,15 @@ class FilterSelect
         {
             unset($map[$id]);
         }
+    }
+
+    /**
+     * @param bool $flipped
+     * @return array|bool
+     */
+    public function getActiveOptions($flipped = false)
+    {
+        return ($flipped ? array_flip($this->active_options) : $this->active_options);
     }
 
     /**
@@ -116,9 +106,20 @@ class FilterSelect
             {
                 $output .= "</optgroup>\n";
             }
+
         }
         $output .= "</select>\n";
 
         return $output;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function isActive($id)
+    {
+        $map = $this->getActiveOptions(true);
+        return isset($map[$id]);
     }
 }
