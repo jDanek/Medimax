@@ -14,7 +14,7 @@ class QueryString
 
     /**
      * Konstruktoe
-     * 
+     *
      * @param array $queryString pole s query string daty (obvykle $_GET)
      */
     function __construct(array $queryString)
@@ -24,7 +24,7 @@ class QueryString
 
     /**
      * Vraci pole s parametry
-     * 
+     *
      * @return array
      */
     function getArray()
@@ -34,7 +34,7 @@ class QueryString
 
     /**
      * Getter
-     * 
+     *
      * @param string $key
      * @return mixed
      */
@@ -45,7 +45,7 @@ class QueryString
 
     /**
      * Setter
-     * 
+     *
      * @param string $key
      * @param mixed $val
      * @throws \RuntimeException
@@ -58,7 +58,7 @@ class QueryString
 
     /**
      * Isset
-     * 
+     *
      * @param string $key
      * @return bool
      */
@@ -69,7 +69,7 @@ class QueryString
 
     /**
      * Unset
-     * 
+     *
      * @param string $key
      */
     function __unset($key)

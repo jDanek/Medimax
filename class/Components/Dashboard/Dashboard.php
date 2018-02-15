@@ -7,9 +7,9 @@ namespace Medimax\Components\Dashboard;
  *
  * @author jDanek
  */
-use Medimax,
-    MedimaxConfig,
-    Medimax\Utils\QueryString;
+use Medimax;
+use Medimax\Utils\QueryString;
+use MedimaxConfig;
 
 class Dashboard
 {
@@ -19,7 +19,7 @@ class Dashboard
 
     /**
      * Konstruktor
-     * 
+     *
      * @param int $moduleColumns pocet sloupcu vypsanych modulu
      */
     public function __construct($modules)
@@ -29,15 +29,14 @@ class Dashboard
 
     /**
      * Vytvoreni backlinku
-     * 
+     *
      * @return string
      */
     public function backlink()
     {
         $qs = new QueryString($_GET);
 
-        if ((isset($qs->action) && 'list' === $qs->action) || (isset($qs->m) && !isset($qs->action)))
-        {
+        if ((isset($qs->action) && 'list' === $qs->action) || (isset($qs->m) && !isset($qs->action))) {
             return "<a href='" . MedimaxConfig::$adminUrl['board'] . "' class='backlink'>&lt; {$GLOBALS['_lang']['global.return']}</a>";
         }
     }
@@ -49,28 +48,19 @@ class Dashboard
     {
         $qs = new QueryString($_GET);
         // vykresleni modulu
-        if (isset($qs->m))
-        {
+        if (isset($qs->m)) {
 
-            if (isset($this->modules[$qs->m]))
-            {
-                if ($this->compareVersion($this->modules[$qs->m]['requireVersion'], Medimax::VERSION, '<='))
-                {
+            if (isset($this->modules[$qs->m])) {
+                if ($this->compareVersion($this->modules[$qs->m]['requireVersion'], Medimax::VERSION, '<=')) {
                     return $this->moduleRender($qs->m);
-                }
-                else
-                {
+                } else {
                     return _formMessage(2, Medimax::lang('module', 'requireVersion') . " " . Medimax::NAME . " " . $this->modules[$qs->m]['requireVersion']);
                 }
-            }
-            else
-            {
+            } else {
                 // modul neexistuje / uziv. nema opravneni
                 return _formMessage(3, str_replace('*module_id*', $qs->m, Medimax::lang('module', 'notExists')));
             }
-        }
-        else
-        {
+        } else {
             // vykresleni obsahu misto modulu
             return $this->moduleList();
         }
@@ -78,7 +68,7 @@ class Dashboard
 
     /**
      * Vypise tabulku s nactenymi moduly
-     * 
+     *
      * @return string
      */
     public function moduleList()
@@ -88,8 +78,7 @@ class Dashboard
 
         $return = "<div id='dashboard' class='dashboard'>";
 
-        foreach ($this->modules as $mod)
-        {
+        foreach ($this->modules as $mod) {
             /** @var bool */
             $isCorrectVersion = $this->compareVersion($mod['requireVersion'], Medimax::VERSION, '<=');
 
@@ -102,14 +91,13 @@ class Dashboard
             $modDescription = $mod->description;
 
             // zmenit ikonu pokud neni modul pouzitelny v aktualni verzi prostredi
-            if (false === $isCorrectVersion)
-            {
+            if (false === $isCorrectVersion) {
                 $modIcon = MedimaxConfig::getDirectory('icons') . "modicon_red.png";
                 $modTitle = "<span class='a-disabled' title='" . Medimax::lang('module', 'requireVersion') . Medimax::NAME . " {$mod['requireVersion']}'>{$mod->name}</span>";
             }
 
             // vypis modulu
-            $return.="<div class='mod-container mod-{$modId}'>
+            $return .= "<div class='mod-container mod-{$modId}'>
                           <img class='mod-icon' alt='module-icon' src='{$modIcon}' />
                           <div class='mod-data'>
                               <span class='mod-anchor mod-title'>{$modTitle}</span>
@@ -124,7 +112,7 @@ class Dashboard
 
     /**
      * Porovnani dvou udanych verzi
-     * 
+     *
      * @param string $version1
      * @param string $version2
      * @param string $operator porovnavaci operator (< | <= | => | > | == | = | != | <>)
@@ -132,8 +120,7 @@ class Dashboard
      */
     private function compareVersion($version1, $version2, $operator = '<')
     {
-        if (version_compare($version1, $version2, $operator))
-        {
+        if (version_compare($version1, $version2, $operator)) {
             return true;
         }
         return false;
@@ -141,23 +128,19 @@ class Dashboard
 
     /**
      * Vykresleni obsahu vybraneho modulu
-     * 
+     *
      * @param string $module
      * @return string
      */
     public function moduleRender($module)
     {
-        if (isset($this->modules[$module]))
-        {
+        if (isset($this->modules[$module])) {
             $selectedModule = $this->modules[$module];
             $moduleScript = $selectedModule->path . DIRECTORY_SEPARATOR . $selectedModule->files->runable;
 
-            if (null !== $selectedModule->files->runable && file_exists($moduleScript))
-            {
+            if (null !== $selectedModule->files->runable && file_exists($moduleScript)) {
                 return require $moduleScript;
-            }
-            else
-            {
+            } else {
                 return _formMessage(3, str_replace('*module_id*', $module, Medimax::lang('module', 'notExists')));
             }
         }
@@ -165,19 +148,17 @@ class Dashboard
 
     /**
      * Vraci obsah pro bocni panel modulu pokud existuje
-     * 
+     *
      * @param string $module idmodulu
      * @return mixed
      */
     public function sidebar($module)
     {
-        if (isset($this->modules[$module]))
-        {
+        if (isset($this->modules[$module])) {
             $selectedModule = $this->modules[$module];
             $sidebarScript = $selectedModule->path . DIRECTORY_SEPARATOR . $selectedModule->files->sidebar;
 
-            if (isset($selectedModule->files->sidebar) && file_exists($sidebarScript))
-            {
+            if (isset($selectedModule->files->sidebar) && file_exists($sidebarScript)) {
                 return require $sidebarScript;
             }
         }

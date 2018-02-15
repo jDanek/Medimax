@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <medimax-module type="module" requireVersion="2.7.0">
-    
+
     <name>World Module</name>
     <description>Takto vypadá nedostupný modul</description>
     <version>1.0</version>
-    
+
     <author>
         <name>jDanek</name>
         <email>jirka.danek@jdanek.eu</email>
         <url>jdanek.eu</url>
     </author>
-    
+
     <config>
         <accessLevel>600</accessLevel>
         <priority>1</priority>
     </config>
-    
+
 </medimax-module>

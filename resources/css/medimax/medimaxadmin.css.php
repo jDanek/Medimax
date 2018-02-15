@@ -291,7 +291,7 @@ BREAD SABLONY
 
 .medimax-dashboard-wrapper .list td {padding: 5px 10px 5px 5px;}
 
-.bread-actions {width:1%; white-space:nowrap; padding: 5px 10px !important;}
+.bread-actions {width:1%; white-space:nowrap; padding: 5px 10px !important; text-align: right;}
 .bread-actions span{display:none;}
 .list-action-btn .icon {height: 14px; width: 14px;}
 .list-action-btn .icon {background-color: #F5F5F5; padding: 2px 5px; margin: -1px 2px 0 0 !important; border: 1px solid <?php echo $scheme_smoke_text; ?>;}
@@ -301,3 +301,16 @@ BREAD SABLONY
 
 /* FILTROVANI */
 option.item-selected {color: blue;}
+.filter-search-forms{float: left;}
+.filter-search-forms select {vertical-align: top;}
+.filter-search-actions{float: left; margin-left: 5px;}
+
+.filter img {
+    width: 14px;
+    height: 14px;
+}
+
+.filter button {
+    width: 25px;
+    height: 25px;
+}

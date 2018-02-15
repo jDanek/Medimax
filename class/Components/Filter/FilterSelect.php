@@ -34,8 +34,7 @@ class FilterSelect
      */
     public function setOptions(array $options)
     {
-        foreach ($options as $option)
-        {
+        foreach ($options as $option) {
             $this->setOption($option);
         }
     }
@@ -62,8 +61,7 @@ class FilterSelect
     public function removeActiveOption($id)
     {
         $map = $this->getActiveOptions();
-        if (isset($map[$id]))
-        {
+        if (isset($map[$id])) {
             unset($map[$id]);
         }
     }
@@ -91,19 +89,15 @@ class FilterSelect
     public function render()
     {
         $output = "<select name='" . $this->identifier . "'>\n";
-        foreach ($this->options_map as $_group => $_items)
-        {
-            if ($_group != FilterOption::BASEGROUP)
-            {
+        foreach ($this->options_map as $_group => $_items) {
+            if ($_group != FilterOption::BASEGROUP) {
                 $output .= "<optgroup label='" . $_group . "'>\n";
             }
-            foreach ($_items as $id => $item)
-            {
+            foreach ($_items as $id => $item) {
                 $item->setActive($this->isActive($id));
                 $output .= $item->render();
             }
-            if ($_group != FilterOption::BASEGROUP)
-            {
+            if ($_group != FilterOption::BASEGROUP) {
                 $output .= "</optgroup>\n";
             }
 

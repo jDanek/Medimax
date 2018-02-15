@@ -23,8 +23,7 @@ class ResourcesLoader
     {
         $this->loadedFiles = array();
         /* --- projit pripony --- */
-        foreach ($extensions as $key => $extension)
-        {
+        foreach ($extensions as $key => $extension) {
             $this->fileFinder($dir, $extension, $filename);
         }
     }
@@ -36,12 +35,9 @@ class ResourcesLoader
      */
     public function getFiles($extension)
     {
-        if (isset($this->loadedFiles[$extension]))
-        {
+        if (isset($this->loadedFiles[$extension])) {
             return $this->loadedFiles[$extension];
-        }
-        else
-        {
+        } else {
             return array();
         }
     }
@@ -56,20 +52,14 @@ class ResourcesLoader
     {
         //$out = array();
         $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::CURRENT_AS_FILEINFO | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST
+            new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::CURRENT_AS_FILEINFO | \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST
         );
-        foreach ($iterator as $file)
-        {
-            if (strtolower($file->getExtension()) === $extension)
-            {
-                if (null === $filename)
-                {
+        foreach ($iterator as $file) {
+            if (strtolower($file->getExtension()) === $extension) {
+                if (null === $filename) {
                     $this->loadedFiles[$extension][] = $file->getPathname();
-                }
-                else
-                {
-                    if ($filename . "." . $extension === $file->getFilename())
-                    {
+                } else {
+                    if ($filename . "." . $extension === $file->getFilename()) {
                         $this->loadedFiles[$extension][] = $file->getPathname();
                     }
                 }

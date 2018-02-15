@@ -8,10 +8,10 @@ namespace Medimax\Components\Module;
  * @author jDanek <jdanek.eu>
  * @copyright (c) 2014, jDanek
  */
-use RecursiveDirectoryIterator,
-    RecursiveIteratorIterator,
-    FilesystemIterator,
-    SimpleXMLElement;
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use SimpleXMLElement;
 
 class ModLoader
 {
@@ -27,7 +27,7 @@ class ModLoader
 
     /**
      * Konstruktor
-     * 
+     *
      * @param string $directory cesta k adresari s moduly
      */
     public function __construct($directory)
@@ -38,7 +38,7 @@ class ModLoader
 
     /**
      * Prohleda adresar s moduly
-     * 
+     *
      * @param string $modulesDirectory cesta k adresari s moduly
      * @param int $maxDepth maximalni hloubka hledani
      */
@@ -47,16 +47,13 @@ class ModLoader
         $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($modulesDirectory, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST);
         $it->setMaxDepth($maxDepth);
 
-        foreach ($it as $fileinfo)
-        {
+        foreach ($it as $fileinfo) {
             $isDot = substr($it->getSubPath(), 0, 1);
-            if ('.' !== $isDot && $fileinfo->isFile() && 'xml' === $fileinfo->getExtension())
-            {
+            if ('.' !== $isDot && $fileinfo->isFile() && 'xml' === $fileinfo->getExtension()) {
                 $pathToFile = $fileinfo->getPathname();
                 $loadedModule = simplexml_load_file($pathToFile);
 
-                if ((int) $loadedModule->config->accessLevel <= _loginright_level)
-                {
+                if ((int)$loadedModule->config->accessLevel <= _loginright_level) {
                     $this->addFoundModule($loadedModule, $pathToFile);
                 }
             }
@@ -68,7 +65,7 @@ class ModLoader
 
     /**
      * Pridava nalezeny modul do fronty k zpracovani
-     * 
+     *
      * @param SimpleXMLElement $foundModule nalezeny modul
      * @param string $pathToModule cesta k souboru modulu
      */
@@ -82,7 +79,7 @@ class ModLoader
         $foundModule->addChild('path', $moduleDir);
 
         // ulozeni modulu do pole
-        $this->foundModules[(int) $foundModule->config->priority][$moduleId] = $foundModule;
+        $this->foundModules[(int)$foundModule->config->priority][$moduleId] = $foundModule;
     }
 
     /**
@@ -94,10 +91,8 @@ class ModLoader
         krsort($this->foundModules);
 
         // vytvorit pole modulu serazene podle priority
-        foreach ($this->foundModules as $priority => $modules)
-        {
-            foreach ($modules as $id => $mod)
-            {
+        foreach ($this->foundModules as $priority => $modules) {
+            foreach ($modules as $id => $mod) {
                 $this->modules[$id] = $mod;
             }
         }
@@ -108,14 +103,13 @@ class ModLoader
 
     /**
      * Vraci modul podle identifikatoru
-     * 
+     *
      * @param string $module
      * @return object
      */
     public function getModule($module)
     {
-        if (isset($this->modules[$module]))
-        {
+        if (isset($this->modules[$module])) {
             return $this->modules[$module];
         }
         return null;
@@ -123,7 +117,7 @@ class ModLoader
 
     /**
      * Vraci pole s moduly
-     * 
+     *
      * @return array
      */
     public function getModules()

@@ -10,7 +10,7 @@ class ContentFilter
 {
     /** @var array */
     public $config = array(
-        'select.name'           => 'filter-select',
+        'select.name' => 'filter-select',
         'select.option.default' => '--- Select ---',
     );
     /** @var string */
@@ -46,8 +46,7 @@ class ContentFilter
      */
     public function addItems(array $items, $group = FilterOption::BASEGROUP)
     {
-        foreach ($items as $item)
-        {
+        foreach ($items as $item) {
             $this->addItem($item['name'], $item['cond'], $group);
         }
     }
@@ -72,10 +71,8 @@ class ContentFilter
      */
     public function addItemsFromFile($filter_map)
     {
-        foreach ($filter_map as $group => $items)
-        {
-            foreach ($items as $x => $item)
-            {
+        foreach ($filter_map as $group => $items) {
+            foreach ($items as $x => $item) {
                 $this->addItem($item['name'], $item['cond'], $group);
             }
         }
@@ -100,17 +97,14 @@ class ContentFilter
             $filters = array_keys($this->getActiveFromSession());
         }*/
 
-        if ($this->getActiveFromSession() !== null)
-        {
+        if ($this->getActiveFromSession() !== null) {
             $filters = $this->getActiveFromSession();
         }
 
         $act = array();
         $items = $this->getOnlyItems();
-        foreach ($filters as $g => $f)
-        {
-            if (isset($items[$f]))
-            {
+        foreach ($filters as $g => $f) {
+            if (isset($items[$f])) {
                 $act[] = $items[$f]->getCond();
             }
         }
@@ -122,8 +116,7 @@ class ContentFilter
      */
     public function getActiveFromSession()
     {
-        if (isset($_SESSION['medimax']['filters'][$this->identifier]) && count($_SESSION['medimax']['filters'][$this->identifier]) > 0)
-        {
+        if (isset($_SESSION['medimax']['filters'][$this->identifier]) && count($_SESSION['medimax']['filters'][$this->identifier]) > 0) {
             return $_SESSION['medimax']['filters'][$this->identifier];
         }
         return null;
@@ -135,8 +128,7 @@ class ContentFilter
     public function getOnlyItems()
     {
         $items = array();
-        foreach ($this->items as $g => $i)
-        {
+        foreach ($this->items as $g => $i) {
             $items = array_merge($items, $i);
         }
         return $items;
@@ -153,12 +145,10 @@ class ContentFilter
         $defaultOpt->setId(-1)->setGroup(FilterOption::BASEGROUP)->setName($this->config['select.option.default']);
         $select->setOption($defaultOpt);
 
-        if ($this->getActiveFromSession() != null)
-        {
+        if ($this->getActiveFromSession() != null) {
             $select->setActiveOption($this->getActiveFromSession());
         }
-        foreach ($this->items as $i)
-        {
+        foreach ($this->items as $i) {
             $select->setOptions($i);
         }
 
@@ -171,11 +161,9 @@ class ContentFilter
      */
     public function refreshFilters($mode, $key)
     {
-        switch ($mode)
-        {
+        switch ($mode) {
             case 'set':
-                if ($key != '-1')
-                {
+                if ($key != '-1') {
                     $this->saveActiveToSession($key);
                 }
                 break;
@@ -186,12 +174,9 @@ class ContentFilter
                 $this->clearActiveInSession();
                 break;
             case 'search':
-                if ($key != null)
-                {
+                if ($key != null) {
                     $_SESSION['medimax']['search'][$this->identifier] = $key;
-                }
-                else
-                {
+                } else {
                     unset($_SESSION['medimax']['search'][$this->identifier]);
                 }
 
@@ -216,8 +201,7 @@ class ContentFilter
     public function removeActiveFromSession($active)
     {
         $value = explode(':', $active);
-        if (isset($_SESSION['medimax']['filters'][$this->identifier][$value[0]]))
-        {
+        if (isset($_SESSION['medimax']['filters'][$this->identifier][$value[0]])) {
             unset($_SESSION['medimax']['filters'][$this->identifier][$value[0]]);
         }
     }
